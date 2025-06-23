@@ -1,0 +1,14 @@
+INFO:     Started server process [9797]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:12000 (Press CTRL+C to quit)
+🚀 DevRel Command Center starting up...
+INFO:     127.0.0.1:53138 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52380 - "GET /api/v1/dashboard HTTP/1.1" 200 OK
+INFO:     10.2.97.11:56476 - "GET / HTTP/1.1" 200 OK
+INFO:     10.2.46.10:37212 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43630 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.2.60.141:46164 - "GET / HTTP/1.1" 200 OK
+INFO:     10.2.38.10:53384 - "GET / HTTP/1.1" 200 OK
+INFO:     10.2.96.12:37554 - "GET / HTTP/1.1" 200 OK
+INFO:     10.2.97.11:40514 - "GET // HTTP/1.1" 404 Not Found
