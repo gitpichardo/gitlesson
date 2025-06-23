@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevRel Command Center - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 16px;
+            font-size: 1.4rem;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .stat:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .feature {
+            background: rgba(255,255,255,0.95);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        
+        .feature h4 {
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+        
+        .api-demo {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .api-demo h3 {
+            color: #667eea;
+            margin-bottom: 16px;
+        }
+        
+        .endpoint {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #667eea;
+        }
+        
+        .endpoint .method {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .endpoint .url {
+            color: #667eea;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status.running {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.demo {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            margin: 8px;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .btn.secondary {
+            background: #6c757d;
+        }
+        
+        .btn.secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 DevRel Command Center</h1>
+            <p>Comprehensive Developer Relations Management Platform</p>
+            <div style="margin-top: 20px;">
+                <span class="status running">Backend Running</span>
+                <span class="status demo">Demo Mode</span>
+            </div>
+        </div>
+        
+        <div class="dashboard">
+            <div class="card">
+                <h3>📊 Dashboard Overview</h3>
+                <div class="stat">
+                    <span>Open Issues</span>
+                    <span class="stat-value" id="open-issues">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Pending Feedback</span>
+                    <span class="stat-value" id="pending-feedback">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Content in Progress</span>
+                    <span class="stat-value" id="content-progress">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Community Health</span>
+                    <span class="stat-value" id="community-health">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🔗 Integrations Status</h3>
+                <div class="stat">
+                    <span>GitHub</span>
+                    <span class="stat-value" id="github-status">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Slack</span>
+                    <span class="stat-value" id="slack-status">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Discord</span>
+                    <span class="stat-value" id="discord-status">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>OpenAI</span>
+                    <span class="stat-value" id="openai-status">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Analytics</h3>
+                <div class="stat">
+                    <span>Total Feedback</span>
+                    <span class="stat-value" id="total-feedback">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Total Issues</span>
+                    <span class="stat-value" id="total-issues">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Total Content</span>
+                    <span class="stat-value" id="total-content">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span>Community Members</span>
+                    <span class="stat-value" id="total-members">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">💬</div>
+                <h4>Feedback Collection</h4>
+                <p>Collect and analyze feedback from GitHub, Slack, Discord, and forums with AI-powered sentiment analysis.</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">🐛</div>
+                <h4>Issue Management</h4>
+                <p>Track, triage, and resolve issues across platforms with automated priority assignment and ownership tracking.</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📝</div>
+                <h4>Content Production</h4>
+                <p>Manage blog posts, tutorials, documentation, and templates with a streamlined publication workflow.</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">👥</div>
+                <h4>Community Engagement</h4>
+                <p>Foster community health with member management, support sessions, and engagement tracking.</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h4>Analytics & KPIs</h4>
+                <p>Monitor DevRel metrics like activation time, PR velocity, and documentation satisfaction.</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h4>Release Management</h4>
+                <p>Orchestrate release communications with changelogs, upgrade guides, and multi-channel distribution.</p>
+            </div>
+        </div>
+        
+        <div class="api-demo">
+            <h3>🔌 API Endpoints</h3>
+            <p style="margin-bottom: 20px;">The backend API is running and provides the following endpoints:</p>
+            
+            <div class="endpoint">
+                <span class="method">GET</span> <span class="url">http://localhost:12000/</span> - API Status
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span> <span class="url">http://localhost:12000/api/v1/dashboard</span> - Dashboard Data
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span> <span class="url">http://localhost:12000/api/v1/feedback/</span> - Feedback Management
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span> <span class="url">http://localhost:12000/api/v1/issues/</span> - Issue Tracking
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span> <span class="url">http://localhost:12000/api/v1/content/</span> - Content Management
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span> <span class="url">http://localhost:12000/api/v1/integrations/</span> - Integration Status
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <a href="http://localhost:12000/docs" class="btn" target="_blank">📚 API Documentation</a>
+                <a href="http://localhost:12000/api/v1/dashboard" class="btn secondary" target="_blank">🔍 Test API</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>DevRel Command Center - Streamlining Developer Relations workflows</p>
+            <p>Built with FastAPI, React, and Material-UI</p>
+        </div>
+    </div>
+    
+    <script>
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('http://localhost:12000/api/v1/dashboard');
+                const data = await response.json();
+                
+                document.getElementById('open-issues').textContent = data.stats.open_issues;
+                document.getElementById('pending-feedback').textContent = data.stats.pending_feedback;
+                document.getElementById('content-progress').textContent = data.stats.content_in_progress;
+                document.getElementById('community-health').textContent = data.stats.community_health_score + '%';
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                document.getElementById('open-issues').textContent = 'Error';
+                document.getElementById('pending-feedback').textContent = 'Error';
+                document.getElementById('content-progress').textContent = 'Error';
+                document.getElementById('community-health').textContent = 'Error';
+            }
+        }
+        
+        // Load integrations status
+        async function loadIntegrationsStatus() {
+            try {
+                const response = await fetch('http://localhost:12000/api/v1/integrations/');
+                const data = await response.json();
+                
+                document.getElementById('github-status').textContent = data.github.status;
+                document.getElementById('slack-status').textContent = data.slack.status;
+                document.getElementById('discord-status').textContent = data.discord.status;
+                document.getElementById('openai-status').textContent = data.openai.status;
+            } catch (error) {
+                console.error('Error loading integrations status:', error);
+                document.getElementById('github-status').textContent = 'Error';
+                document.getElementById('slack-status').textContent = 'Error';
+                document.getElementById('discord-status').textContent = 'Error';
+                document.getElementById('openai-status').textContent = 'Error';
+            }
+        }
+        
+        // Load analytics data
+        async function loadAnalyticsData() {
+            try {
+                const response = await fetch('http://localhost:12000/api/v1/analytics/dashboard');
+                const data = await response.json();
+                
+                document.getElementById('total-feedback').textContent = data.overview.total_feedback;
+                document.getElementById('total-issues').textContent = data.overview.total_issues;
+                document.getElementById('total-content').textContent = data.overview.total_content;
+                document.getElementById('total-members').textContent = data.overview.total_members;
+            } catch (error) {
+                console.error('Error loading analytics data:', error);
+                document.getElementById('total-feedback').textContent = 'Error';
+                document.getElementById('total-issues').textContent = 'Error';
+                document.getElementById('total-content').textContent = 'Error';
+                document.getElementById('total-members').textContent = 'Error';
+            }
+        }
+        
+        // Load all data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            loadIntegrationsStatus();
+            loadAnalyticsData();
+        });
+    </script>
+</body>
+</html>
